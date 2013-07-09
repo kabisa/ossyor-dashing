@@ -2,11 +2,11 @@ require 'net/http'
 require 'json'
 require 'time'
 
-JENKINS_URI = URI.parse("http://localhost:8080")
+JENKINS_URI = URI.parse("http://oss-ci.ddns.htc.nl.philips.com:8080")
 
 # the key of this mapping must be a unique identifier for your job, the according value must be the name that is specified in jenkins
 job_mapping = {
-  'JOB' => { :job => 'BUILD', :pre_job => 'PRE_BUILD'}
+  'JOB' => { :job => 'ossyor_develop', :pre_job => 'PRE_BUILD'}
 }
 
 def get_number_of_failing_tests(job_name)
@@ -45,7 +45,7 @@ job_mapping.each do |title, jenkins_project|
       current_status = "PREBUILD" if pre_build_info["building"]
       percent = get_completion_percentage(jenkins_project[:pre_job])
     end
-    
+
     send_event(title, {
       currentResult: current_status,
       lastResult: last_status,
