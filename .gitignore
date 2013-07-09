@@ -1,1 +1,4 @@
 *DS_STORE
+/Gemfile.lock
+*.gem
+history.yml
