@@ -1,6 +1,23 @@
 // ----------------------------------------------------------------------------
 // Widget-jenkins-jobs styles
 // ----------------------------------------------------------------------------
+@keyframes jenkins-build-success {
+  from { background-color: green; }
+  to { background-color: lighten(green, 30%)
+}
+@-webkit-keyframes jenkins-build-success {
+  from { background-color: green; }
+  to { background-color: lighten(green, 30%)
+}
+@keyframes jenkins-build-failure {
+  from { background-color: red; }
+  to { background-color: lighten(red, 30%)
+}
+@-webkit-keyframes jenkins-build-failure {
+  from { background-color: red; }
+  to { background-color: lighten(red, 30%)
+}
+
 .widget-jenkins-jobs {
   background-color: lightgrey;
   padding-bottom: 0px !important;
@@ -12,7 +29,6 @@
   }
 
   .job {
-    border-radius: 8px;
     float: left;
     padding: 4px 0px;
   }
@@ -21,8 +37,18 @@
     background-color: green;
   }
 
+  .job[data-state="blue_anime"] {
+    animation: jenkins-build-success 4s linear 0 infinite alternate;
+    -webkit-animation: jenkins-build-success 4s linear 0 infinite alternate;
+  }
+
   .job[data-state="red"] {
     background-color: red;
+  }
+
+  .job[data-state="red_anime"] {
+    animation: jenkins-build-failure 4s linear 0 infinite alternate;
+    -webkit-animation: jenkins-build-failure 4s linear 0 infinite alternate;
   }
 
   .job[data-state="grey"] {
