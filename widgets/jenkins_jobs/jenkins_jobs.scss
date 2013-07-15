@@ -3,26 +3,24 @@
 // ----------------------------------------------------------------------------
 @keyframes jenkins-build-success {
   from { background-color: green; }
-  to { background-color: lighten(green, 30%)
+  to { background-color: lighten(green, 20%); }
 }
 @-webkit-keyframes jenkins-build-success {
   from { background-color: green; }
-  to { background-color: lighten(green, 30%)
+  to { background-color: lighten(green, 20%); }
 }
 @keyframes jenkins-build-failure {
   from { background-color: red; }
-  to { background-color: lighten(red, 30%)
+  to { background-color: lighten(red, 30%); }
 }
 @-webkit-keyframes jenkins-build-failure {
   from { background-color: red; }
-  to { background-color: lighten(red, 30%)
+  to { background-color: lighten(red, 30%); }
 }
 
 .widget-jenkins-jobs {
   background-color: lightgrey;
-  padding-bottom: 0px !important;
-  padding-left: 0px !important;
-  padding-right: 0px !important;
+  padding: 0px !important;
 
   .title {
     color: black;
@@ -31,6 +29,7 @@
   .job {
     float: left;
     padding: 4px 0px;
+    height: 4em;
   }
 
   .job[data-state="blue"] {
