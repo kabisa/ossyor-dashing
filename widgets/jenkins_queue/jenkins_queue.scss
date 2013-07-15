@@ -1,0 +1,40 @@
+// ----------------------------------------------------------------------------
+// Widget-jenkins-queue styles
+// ----------------------------------------------------------------------------
+.widget-jenkins-queue {
+  background-color: lightgrey;
+
+  .title {
+    color: black;
+  }
+
+  .queue {
+    counter-reset: item
+  }
+
+  .job {
+    border-radius: 8px;
+    float: left;
+    list-style-type: none;
+    margin: 4px;
+    padding: 6px;
+  }
+
+  .job:before {
+    content: counter(item) ". ";
+    counter-increment: item;
+    color: black;
+  }
+
+  .job[data-state="blue"] {
+    background-color: green;
+  }
+
+  .job[data-state="red"] {
+    background-color: red;
+  }
+
+  .job[data-state="grey"] {
+    background-color: grey;
+  }
+}

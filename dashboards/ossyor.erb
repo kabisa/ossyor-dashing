@@ -1,12 +1,30 @@
 <% content_for :title do %>OSS - YOR Dashboard<% end %>
 <div class="gridster">
   <ul>
-    <li data-row="1" data-col="2" data-sizex="2" data-sizey="2">
-      <div data-id="JOB" data-view="JenkinsBuild" data-title="BUILD" data-min="0" data-max="100"></div>
+    <%#<li data-row="1" data-col="2" data-sizex="2" data-sizey="2">%>
+      <%#<div data-id="JOB" data-view="JenkinsBuild" data-title="BUILD" data-min="0" data-max="100"></div>%>
+    <%#</li>%>
+
+    <li data-row="1" data-col="1" data-sizex="4" data-sizey="1">
+      <div data-id="jenkins_jobs" data-view="Jenkins_Jobs" data-title="Jenkins Jobs" data-cols="8"></div>
     </li>
 
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
       <div data-id="weather" data-view="Weather"></div>
     </li>
+
+    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_queue" data-view="Jenkins_Queue" data-title="Jenkins Queue"></div>
+    </li>
+
+    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_jobstates" data-view="Jenkins_Jobstates" data-title="Jenkins Jobstates"></div>
+    </li>
+
+    <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_weather" data-view="Jenkins_Weather" data-title="Jenkins Weather"></div>
+    </li>
+
+
   </ul>
 </div>
