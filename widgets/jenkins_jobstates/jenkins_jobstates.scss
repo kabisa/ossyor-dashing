@@ -2,7 +2,7 @@
 // Widget-jenkins-jobstates styles
 // ----------------------------------------------------------------------------
 .widget-jenkins-jobstates {
-  background-color: lightgrey;
+  background: lightgrey url("/assets/jenkins.png") no-repeat 50% 50%;
 
   .title {
     color: black;
@@ -13,14 +13,13 @@
   }
 
   .job {
-    border-radius: 50%;
+    border-radius: 24px;
     display: inline-block;
     height: 60px;
     line-height: 60px;
     margin-left: 12px;
     text-align: center;
     width: 60px;
-    box-shadow: inset -7px -7px 20px rgba(0,0,0,.5), 3px 3px 6px rgba(0,0,0,.4);
   }
 
   .job:first-child {
