@@ -30,6 +30,7 @@ SCHEDULER.every '1m', :first_in => 0 do
     background = 'success'
     background = 'unknown' if grey > 0
     background = 'fail' if red > 0
+    background.concat ' widget widget-jenkins-jobstates jenkins_jobstates'
 
     send_event('jenkins_jobstates', { blue: blue, red: red, grey: grey, background: background })
   end
