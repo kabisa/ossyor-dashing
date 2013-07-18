@@ -2,7 +2,7 @@ require 'net/http'
 require 'xmlsimple'
 require 'date'
 
-SCHEDULER.every '1s', :first_in => 0 do |job|
+SCHEDULER.every '30m', :first_in => 0 do |job|
   # http://assets.pwl.philips.com.s3.amazonaws.com/backend/ROOMS-HL2-global-000900000000X.xml
 
   namespaces = %w(HL1 HL2 HL3)
