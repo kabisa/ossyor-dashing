@@ -25,7 +25,7 @@
 }
 
 .widget-jenkins-jobs {
-  background-color: lightgrey;
+  /*background-color: lightgrey;*/
   padding: 0px !important;
 
   .title {
@@ -67,6 +67,18 @@
   .job span {
     padding: 0px 4px;
     color: rgba(255,255,255,.8);
+  }
+}
+
+.widget-jenkins-jobs[data-cols="3"] {
+  .job {
+    margin-bottom: 1%;
+    margin-left: 1%;
+    width: 32.0%;
+  }
+
+  .job:nth-child(3n + 1) {
+    clear: left;
   }
 }
 

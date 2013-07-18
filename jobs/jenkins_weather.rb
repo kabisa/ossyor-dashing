@@ -5,7 +5,7 @@ jenkins_host = 'oss-ci.ddns.htc.nl.philips.com'
 jenkins_view = 'ossyor'
 jenkins_port = '8080'
 
-SCHEDULER.every '2m', :first_in => 0 do
+SCHEDULER.every '1m', :first_in => 0 do
   http = Net::HTTP.new(jenkins_host,jenkins_port)
   url  = '/view/%s/api/json?tree=jobs[healthReport[iconUrl]]' % jenkins_view
 
