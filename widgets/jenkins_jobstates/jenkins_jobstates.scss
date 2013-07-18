@@ -2,7 +2,17 @@
 // Widget-jenkins-jobstates styles
 // ----------------------------------------------------------------------------
 .widget-jenkins-jobstates {
-  background: hsl(6, 46%, 51%) url("/assets/jenkins.png") no-repeat 50% 50%;
+  &.success {
+    background-color: hsl(126, 46%, 51%);
+  }
+  &.unknown {
+    background-color: hsl(6, 46%, 1%);
+  }
+  &.fail {
+    background-color: hsl(6, 46%, 51%);
+  }
+
+  background: url("/assets/jenkins.png") no-repeat 50% 50%;
 
   .title {
     color: rgba(255,255,255, .7);
