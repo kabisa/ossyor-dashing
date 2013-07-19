@@ -2,10 +2,13 @@
 // Widget-jenkins-jobstates styles
 // ----------------------------------------------------------------------------
 .widget-jenkins-jobstates {
-
+  background: url("/assets/jenkins.png") no-repeat 50% 50%;
   .icon-background {
+    opacity: .7;
+    border-radius: inherit;
+    z-index: -1;
     &.success {
-      background-color: hsl(126, 36%, 51%);
+      background-color: hsl(126, 46%, 51%);
     }
     &.unknown {
       background-color: hsl(6, 46%, 1%);
@@ -14,7 +17,6 @@
       background-color: hsl(6, 46%, 51%);
     }
 
-    background: url("/assets/jenkins.png") no-repeat 50% 50%;
   }
 
   .title {
