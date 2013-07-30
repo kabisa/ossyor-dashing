@@ -1,0 +1,32 @@
+// ----------------------------------------------------------------------------
+// Sass declarations
+// ----------------------------------------------------------------------------
+$background-color:  #dc5945;
+
+// ----------------------------------------------------------------------------
+// Widget-clock styles
+// ----------------------------------------------------------------------------
+.widget-pingdom {
+
+  background-color: $background-color;
+
+  .check {
+    float: left;
+    padding: 4px 0px;
+    width:100%
+  }
+
+  .check[data-state="green"] {
+    background-color: green;
+  }
+
+  .check[data-state="red"] {
+    background-color: red;
+  }
+
+  .check span {
+    padding: 0px 4px;
+  }
+}
+
+
