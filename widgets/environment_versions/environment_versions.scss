@@ -1,0 +1,18 @@
+.widget-environment-versions {
+  .environment {
+    background-color: rgba(0,0,0,0.3);
+    margin: 0.5em 0;
+    border-radius: 5px;
+    text-align: left;
+    padding: 3px;
+    font-size: small;
+
+    .location {
+      background-color: rgb(0, 0, 80);
+      padding: 3px;
+      border-radius: 5px;
+    }
+
+  }
+
+}
