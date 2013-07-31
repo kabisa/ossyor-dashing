@@ -46,8 +46,8 @@ $ci-pending: gray;
 
   .job {
     float: left;
-    padding: 4px 0px;
-    height: 5.1em;
+    padding: 0.8em 0px;
+    height: 4.1em;
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
     border-radius: 4px;
     position: relative;
@@ -89,7 +89,7 @@ $ci-pending: gray;
     text-align: left;
     position: absolute;
     top: 5px;
-    left: 5px;
+    left: 0;
     font-size: small;
     font-weight: bold;
 
