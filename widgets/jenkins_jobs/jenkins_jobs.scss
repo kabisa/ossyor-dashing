@@ -7,21 +7,33 @@
   -webkit-transform: scale(1.10);
 }
 
+$ci-success: green;
+$ci-failure: red;
+$ci-pending: gray;
+
 @keyframes jenkins-build-success {
-  from { background-color: green; }
-  to { background-color: lighten(green, 10%); }
+  from { background-color: $ci-success; }
+  to { background-color: lighten($ci-success, 10%); }
 }
 @-webkit-keyframes jenkins-build-success {
-  from { background-color: green; }
-  to { background-color: lighten(green, 10%); }
+  from { background-color: $ci-success; }
+  to { background-color: lighten($ci-success, 10%); }
 }
 @keyframes jenkins-build-failure {
-  from { background-color: red; }
-  to { background-color: lighten(red, 20%); }
+  from { background-color: $ci-failure; }
+  to { background-color: lighten($ci-failure, 20%); }
 }
 @-webkit-keyframes jenkins-build-failure {
-  from { background-color: red; }
-  to { background-color: lighten(red, 20%); }
+  from { background-color: $ci-failure; }
+  to { background-color: lighten($ci-failure, 20%); }
+}
+@keyframes jenkins-build-pending {
+  from { background-color: $ci-pending; }
+  to { background-color: lighten($ci-pending, 20%); }
+}
+@-webkit-keyframes jenkins-build-pending {
+  from { background-color: $ci-pending; }
+  to { background-color: lighten($ci-pending, 20%); }
 }
 
 .widget-jenkins-jobs {
@@ -41,9 +53,8 @@
   }
 
   .job[data-state="blue"] {
-    background-color: green;
+    background-color: $ci-success;
   }
-
   .job[data-state="blue_anime"] {
     animation: jenkins-build-success 1s linear 0 infinite alternate;
     -webkit-animation: jenkins-build-success 1s linear 0 infinite alternate;
@@ -51,9 +62,8 @@
   }
 
   .job[data-state="red"] {
-    background-color: red;
+    background-color: $ci-failure;
   }
-
   .job[data-state="red_anime"] {
     animation: jenkins-build-failure 1s linear 0 infinite alternate;
     -webkit-animation: jenkins-build-failure 1s linear 0 infinite alternate;
@@ -61,7 +71,12 @@
   }
 
   .job[data-state="grey"] {
-    background-color: grey;
+    background-color: $ci-pending;
+  }
+  .job[data-state="grey_anime"] {
+    animation: jenkins-build-pending 1s linear 0 infinite alternate;
+    -webkit-animation: jenkins-build-pending 1s linear 0 infinite alternate;
+    @include to-foreground;
   }
 
   .job span {
