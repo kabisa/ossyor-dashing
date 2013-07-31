@@ -13,7 +13,11 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
     response = http.request(Net::HTTP::Get.new('/'))
     doc = Nokogiri::HTML(response.body)
     doc.css('meta[name="PHILIPS.PWL.VERSION"]').each do |meta_tag|
-      versions << { name: environment, version: meta_tag['content'] }
+      version = meta_tag['content']
+      if version =~ /branch:/
+        version = version.match(/branch:\s+(?<version>.*)$/)[:version]
+      end
+      versions << { name: environment, version: version }
     end
   end
 
