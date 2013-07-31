@@ -2,7 +2,7 @@
 // Widget-jenkins-jobs styles
 // ----------------------------------------------------------------------------
 @mixin to-foreground {
-  position: relative;
+  z-index: 5;
   box-shadow: 0px 0px 6px 9px rgba(0,0,0,.3);
   -webkit-transform: scale(1.10);
 }
@@ -46,10 +46,11 @@ $ci-pending: gray;
 
   .job {
     float: left;
-    padding: 4px 0px;
-    height: 5.1em;
+    padding: 0.8em 0px;
+    height: 4.1em;
     box-shadow: 0 1px 3px rgba(0,0,0,.35);
     border-radius: 4px;
+    position: relative;
   }
 
   .job[data-state="blue"] {
@@ -82,6 +83,24 @@ $ci-pending: gray;
   .job span {
     padding: 0px 4px;
     color: rgba(255,255,255,.8);
+  }
+  .job .queue-positions {
+    display: block;
+    text-align: left;
+    position: absolute;
+    top: 5px;
+    left: 0;
+    font-size: small;
+    font-weight: bold;
+
+    .queue-position {
+      background-color: rgba(255, 255, 255, 0.25);
+      display: inline-block;
+      border-radius: 6px;
+    }
+  }
+  .job .job-title {
+    margin-top: 10px;
   }
 }
 

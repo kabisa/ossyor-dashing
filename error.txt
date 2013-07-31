@@ -1,0 +1,4 @@
+scheduler caught exception:
+:logger is not registered on Faraday::Adapter
+/Users/matthijsgroen/dashing/vendor/bundle/ruby/1.9.1/gems/faraday-0.8.7/lib/faraday.rb:64:in `lookup_middleware'
+/

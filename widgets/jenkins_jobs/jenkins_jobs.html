@@ -1,5 +1,9 @@
 <ul>
   <li class="job" data-foreach-job="jobs" data-bind-data-state="job.state">
-    <span data-bind="job.name"></span>
+    <span class='title' data-bind="job.name"></span>
+
+    <span class="queue-positions">
+      <span class="queue-position" data-foreach-position="job.queuePositions" data-bind="position"></span>
+    </span>
   </li>
 </ul>

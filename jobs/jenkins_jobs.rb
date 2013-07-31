@@ -12,6 +12,25 @@ SCHEDULER.every '1m', :first_in => 0 do
   response = http.request(Net::HTTP::Get.new(url))
   jobs     = JSON.parse(response.body)['jobs']
 
+  url  = '/queue/api/json?tree=items[inQueueSince,task[color,name]]'
+  response = http.request(Net::HTTP::Get.new(url))
+  queue_items    = JSON.parse(response.body)['items']
+
+  queue = {}
+
+  if queue_items
+    queue_items.sort_by { |item| item['inQueueSince'] }
+    queue_items.reverse!
+    queue_items = queue_items[0..7]
+    position = 1
+    queue_items.map do |item|
+      name = item['task']['name']
+      queue[name] ||= []
+      queue[name] << position
+      position += 1
+    end
+  end
+
   if jobs
     jobs.map! { |job|
       color = 'grey'
@@ -21,7 +40,7 @@ SCHEDULER.every '1m', :first_in => 0 do
         color = job['color']
       end
 
-      { name: job['name'], state: color }
+      { name: job['name'], state: color, queuePositions: queue[job['name']] }
     }
 
     jobs.sort_by { |job| job['name'] }
