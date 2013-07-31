@@ -83,6 +83,23 @@ $ci-pending: gray;
     padding: 0px 4px;
     color: rgba(255,255,255,.8);
   }
+  .job .queue-positions {
+    display: block;
+    text-align: left;
+    position: absolute;
+    top: 5px;
+    font-size: small;
+    font-weight: bold;
+
+    .queue-position {
+      background-color: rgba(255, 255, 255, 0.25)
+      display: inline-block;
+      border-radius: 6px;
+    }
+  }
+  .job .job-title {
+    margin-top: 10px;
+  }
 }
 
 .widget-jenkins-jobs[data-cols="3"] {
