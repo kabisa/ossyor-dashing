@@ -22,10 +22,12 @@ SCHEDULER.every '1m', :first_in => 0 do
     queue_items.sort_by { |item| item['inQueueSince'] }
     queue_items.reverse!
     queue_items = queue_items[0..7]
-    queue_items.with_index.map do |item, position|
+    position = 1
+    queue_items.map do |item|
       name = item['task']['name']
       queue[name] ||= []
-      queue[name] << (position + 1)
+      queue[name] << position
+      position += 1
     end
   end
 
