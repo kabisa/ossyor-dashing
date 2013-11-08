@@ -5,7 +5,7 @@ require 'date'
 SCHEDULER.every '10m', :first_in => 0 do |job|
   # http://www.pwl.philips.com/
 
-  environments = %w(pwl content.pwl staging.pwl)
+  environments = %w(pwl content.pwl staging.pwl demo.pwl)
   versions = []
 
   environments.each do |environment|
