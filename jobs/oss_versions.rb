@@ -17,7 +17,12 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
       if version =~ /branch:/
         version = version.match(/branch:\s+(?<version>.*)$/)[:version]
       end
-      versions << { name: environment, version: version }
+      content = 'unknown'
+      doc.css('meta[name="PHILIPS.PWL.CONTENT-NAMESPACE"]').each do |namespace_meta_tag|
+        content = namespace_meta_tag['content']
+      end
+
+      versions << { name: environment, version: version, content: content }
     end
   end
 
