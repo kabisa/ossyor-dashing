@@ -46,7 +46,7 @@ SCHEDULER.every '30s', :first_in => 0 do
       color = 'grey'
 
       case job['color']
-      when 'blue', 'blue_anime', 'red', 'red_anime', 'grey', 'grey_anime'
+      when 'blue', 'blue_anime', 'red', 'red_anime', 'aborted', 'aborted_anime'
         color = job['color']
       end
 
