@@ -75,6 +75,7 @@ $ci-pending: gray;
   .job[data-state="aborted"] {
     background-color: $ci-pending;
   }
+  .job[data-state="grey_anime"],
   .job[data-state="aborted_anime"] {
     animation: jenkins-build-pending 1s linear 0 infinite alternate;
     -webkit-animation: jenkins-build-pending 1s linear 0 infinite alternate;
