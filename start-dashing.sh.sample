@@ -2,6 +2,7 @@
 
 git pull
 bundle install
+export REDMINE_API_KEY=
 export PINGDOM_API_KEY=
 export PINGDOM_USER=
 export PINGDOM_PASSWORD=
