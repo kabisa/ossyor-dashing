@@ -33,6 +33,5 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
   send_event('environment_versions', {
     environments: versions
   })
-
 end
 

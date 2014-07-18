@@ -40,8 +40,9 @@ if service_account_email && key_file && key_secret && profileID
       'ids' => "ga:" + profileID,
       'start-date' => startDate,
       'end-date' => endDate,
-      'dimensions' => "ga:year,ga:month,ga:day",
-      'metrics' => "ga:visitors",
+      'dimensions' => 'ga:year,ga:month,ga:day',
+      'segment' => 'dynamic::ga:eventAction==open',
+      'metrics' => 'ga:sessions',
       # 'sort' => "ga:month"
     })
 
