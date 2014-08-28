@@ -36,7 +36,7 @@ if service_account_email && key_file && key_secret && profileID
     endDate = DateTime.now.strftime("%Y-%m-%d")  # now
 
     # Execute the query
-    visitCount = client.execute(:api_method => analytics.data.ga.get, :parameters => {
+    visit_count = client.execute(:api_method => analytics.data.ga.get, :parameters => {
       'ids' => "ga:" + profileID,
       'start-date' => startDate,
       'end-date' => endDate,
@@ -47,7 +47,7 @@ if service_account_email && key_file && key_secret && profileID
     })
 
     points = []
-    visitCount.data.rows.each do |data|
+    visit_count.data.rows.each do |data|
       year, month, day, visits = *data.map(&:to_i)
 
       timestamp = Time.new(year, month, day).to_i
@@ -55,7 +55,7 @@ if service_account_email && key_file && key_secret && profileID
     end
 
     # Update the dashboard
-    send_event('visitor_count', { points: points })
+    send_event('visit_count', { points: points })
   end
 
 end
