@@ -48,10 +48,10 @@ if service_account_email && key_file && key_secret && profileID
 
     points = []
     visitCount.data.rows.each do |data|
-      year, month, day, visitors = *data.map(&:to_i)
+      year, month, day, visits = *data.map(&:to_i)
 
       timestamp = Time.new(year, month, day).to_i
-      points << { x: timestamp, y: visitors }
+      points << { x: timestamp, y: visits }
     end
 
     # Update the dashboard

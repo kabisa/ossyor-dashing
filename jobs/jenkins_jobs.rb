@@ -61,7 +61,7 @@ SCHEDULER.every '30s', :first_in => 0 do
 
     jobs.sort_by { |job| job['name'] }
 
-    send_event('jenkins_jobs', { jobs: jobs[0...9] })
+    send_event('jenkins_jobs', { jobs: jobs })
   end
 end if jenkins_reachable
 
