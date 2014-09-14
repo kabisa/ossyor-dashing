@@ -1,0 +1,28 @@
+.widget-pivotal-lane {
+  vertical-align: top !important;
+
+  .story {
+    font-size: 0.8em;
+    padding: 0.5em;
+    margin: 0.5em;
+    background-color: #bcbc49;
+
+    &.chore {
+      background-color: gray;
+    }
+    &.bug {
+      background-color: #9a2e2e;
+    }
+    &.release {
+      background-color: #000050;
+    }
+  }
+
+  .owner {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    margin: 10px;
+  }
+
+}
