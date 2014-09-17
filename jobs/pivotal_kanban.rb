@@ -14,12 +14,16 @@ end
 SCHEDULER.every '3m', first_in: 0 do
   story_fields = 'name,story_type,owners'
 
+  rejected = project.stories(
+    with_state: 'rejected',
+    fields: story_fields
+  )
   upcoming = project.stories(
     with_state: 'unstarted',
     fields: story_fields + ',labels',
     limit: 10
   )
-  upcoming_json = upcoming.select do |story|
+  upcoming_json = (rejected + upcoming).select do |story|
     story.labels.select { |label| label.name == 'impeded' }.empty?
   end.map { |story| to_story_json story }[0...3]
 
