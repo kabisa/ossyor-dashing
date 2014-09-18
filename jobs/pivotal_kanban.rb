@@ -1,7 +1,9 @@
 require 'tracker_api'
+require 'envied'
+ENVied.require
 
-client = TrackerApi::Client.new(token: ENV['PIVOTAL_TRACKER_API_KEY'])                    # Create API client
-project  = client.project(ENV['PIVOTAL_TRACKER_PROJECT'])                                         # Find project with given ID
+client = TrackerApi::Client.new(token: ENVied.PIVOTAL_TRACKER_API_KEY)
+project  = client.project(ENVied.PIVOTAL_TRACKER_PROJECT)
 
 def to_story_json(story)
   {

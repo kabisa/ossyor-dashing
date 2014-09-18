@@ -2,9 +2,6 @@
 
 git pull
 bundle install
+# See Envfile for vars to set
 export REDMINE_API_KEY=
-export PINGDOM_API_KEY=
-export PINGDOM_USER=
-export PINGDOM_PASSWORD=
-export PIVOTAL_TRACKER_API_KEY=
 dashing start

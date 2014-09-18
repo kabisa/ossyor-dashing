@@ -3,12 +3,12 @@ require 'xmlsimple'
 require 'date'
 
 SCHEDULER.every '30m', :first_in => 0 do |job|
-  # http://assets.pwl.philips.com.s3.amazonaws.com/backend/ROOMS-HL2-global-000900000000X.xml
+  # http://assets-pwl-philips-com.s3.amazonaws.com/backend/ROOMS-HL2-global-000900000000X.xml
 
   namespaces = %w(HL1 HL2 HL3)
   luminaire_counts = namespaces.map do |namespace|
     begin
-      http = Net::HTTP.new('assets.pwl.philips.com.s3.amazonaws.com')
+      http = Net::HTTP.new('assets-pwl-philips-com.s3.amazonaws.com')
       response = http.request(Net::HTTP::Get.new("/backend/ROOMS-#{namespace}-global-000900000000X.xml"))
       XmlSimple.xml_in(response.body, { 'ForceArray' => false })['catalog-item'].count
     rescue

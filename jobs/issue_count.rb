@@ -1,5 +1,7 @@
 require "net/https"
 require "uri"
+require 'envied'
+ENVied.require
 
 SCHEDULER.every '30m', :first_in => 0 do |job|
   uri = URI.parse('https://falatados.ehv.campus.philips.com/projects/oss/issues.json')
@@ -8,7 +10,7 @@ SCHEDULER.every '30m', :first_in => 0 do |job|
   http.verify_mode = OpenSSL::SSL::VERIFY_NONE
 
   request = Net::HTTP::Get.new(uri.request_uri)
-  request.basic_auth(ENV['REDMINE_API_KEY'], '')
+  request.basic_auth(ENVied.REDMINE_API_KEY, '')
   response = http.request(request)
 
   json_response = JSON.parse response.body
