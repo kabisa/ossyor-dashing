@@ -8,4 +8,4 @@ gem 'tracker_api', '~> 0.2.0'
 gem 'envied'
 
 ## Remove this if you don't need a twitter widget.
-#gem 'twitter'
+gem 'twitter'

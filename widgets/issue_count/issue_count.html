@@ -1,6 +1,9 @@
-<i class="icon-background icon-bug"></i>
-<h1 class="title" data-bind="title"></h1>
+<i data-bind-class="icon | prepend 'icon-background icon-'"></i>
+<h1 class="title" data-bind="title" data-style-color="color"></h1>
 
-<h2 class="value" data-bind="current | shortenedNumber | prepend prefix"></h2>
+<h2 class="value" data-bind="high | shortenedNumber | prepend prefix"></h2>
 
+<p class="total">
+  <span data-bind="total | shortenedNumber | append ' total'"></span>
+</p>
 

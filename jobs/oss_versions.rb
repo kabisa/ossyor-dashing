@@ -25,15 +25,11 @@ SCHEDULER.every '10m', :first_in => 0 do |job|
         doc.css('meta[name="PHILIPS.PWL.CONTENT-NAMESPACE"]').each do |namespace_meta_tag|
           content = namespace_meta_tag['content']
         end
-        if index == 0
-          main_version = version
-        end
+        main_version = version if index == 0
 
         versions << { name: environment, version: version, content: content }
       end
-      if version_tag.empty?
-        versions << { name: environment, version: 'ERROR', content: 'ERROR' }
-      end
+      versions << { name: environment, version: 'ERROR', content: 'ERROR' } if version_tag.empty?
     rescue StandardError => e
       versions << { name: environment, version: e.message, content: 'ERROR' }
     end

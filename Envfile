@@ -1,0 +1,20 @@
+enable_defaults! { true }
+variable :REDMINE_API_KEY, :String
+
+variable :PIVOTAL_TRACKER_API_KEY, :string
+variable :PIVOTAL_TRACKER_PROJECT, :string
+
+variable :GOOGLE_SERVICE_ACCOUNT, :string, default: false
+variable :GOOGLE_KEY_PATH, :string, default: false
+variable :GOOGLE_ANALYTICS_PROFILE, :string, default: false
+
+variable :HLD_SERVERS, :array, default: 'pwl'
+
+# A sample Envfile
+# enable_defaults! { ENV['RACK_ENV'] != 'production' }
+
+# variable :REDIS_URL, :String, default: 'redis://localhost:6379'
+#
+# group :production do
+#   variable :MAIL_PASS_USERNAME, :String
+# end

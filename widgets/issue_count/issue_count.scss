@@ -1,6 +1,46 @@
-.widget-issue-count {
+$tracker-bugs: hsl(0, 71%, 33%);
+$tracker-support: hsl(247, 73%, 26%);
 
-  .value, .title {
-    color: hsl(60, 46%, 51%);
+@keyframes alert-bugs {
+  from { background-color: $tracker-bugs; }
+  to { background-color: lighten($tracker-bugs, 10%); }
+}
+
+@-webkit-keyframes alert-bugs {
+  from { background-color: $tracker-bugs; }
+  to { background-color: lighten($tracker-bugs, 10%); }
+}
+
+@keyframes alert-support {
+  from { background-color: $tracker-support; }
+  to { background-color: lighten($tracker-support, 10%); }
+}
+@-webkit-keyframes alert-support {
+  from { background-color: $tracker-support; }
+  to { background-color: lighten($tracker-support, 10%); }
+}
+
+.widget-issue-count {
+  &.redmine_bugs {
+    &.status-alert {
+      animation: alert-bugs 1s linear 0 infinite alternate;
+      -webkit-animation: alert-bugs 1s linear 0 infinite alternate;
+    }
+    /*background-color: #8f1818;*/
+    background-color: darken($tracker-bugs, 10%);
+    .value, .title, .total {
+      color: hsl(60, 46%, 51%);
+    }
+  }
+  &.redmine_support {
+    &.status-alert {
+      animation: alert-support 1s linear 0 infinite alternate;
+      -webkit-animation: alert-support 1s linear 0 infinite alternate;
+    }
+    /*background-color: #1E1275;*/
+    background-color: darken($tracker-support, 10%);
+    .value, .title, .total {
+      color: hsl(0, 0, 100%);
+    }
   }
 }
