@@ -1,13 +1,15 @@
 require 'google/api_client'
 require 'date'
+require 'envied'
+ENVied.require
 
 # Update these to match your own apps credentials
-service_account_email = ENV['GOOGLE_SERVICE_ACCOUNT'] # Email of service account
-key_file = ENV['GOOGLE_KEY_PATH'] # File containing your private key
+service_account_email = ENVied.GOOGLE_SERVICE_ACCOUNT # Email of service account
+key_file = ENVied.GOOGLE_KEY_PATH # File containing your private key
 key_secret = 'notasecret' # Password to unlock private key
-profileID = ENV['GOOGLE_ANALYTICS_PROFILE'] # Analytics profile ID.
+profile_id = ENVied.GOOGLE_ANALYTICS_PROFILE # Analytics profile ID.
 
-if service_account_email && key_file && key_secret && profileID
+if service_account_email && key_file && key_secret && profile_id
 
   # Get the Google API client
   client = Google::APIClient.new(:application_name => 'Dashing Widget',
@@ -37,7 +39,7 @@ if service_account_email && key_file && key_secret && profileID
 
     # Execute the query
     soldCount = client.execute(:api_method => analytics.data.ga.get, :parameters => {
-      'ids' => "ga:" + profileID,
+      'ids' => "ga:" + profile_id,
       'start-date' => startDate,
       'end-date' => endDate,
       'dimensions' => 'ga:year,ga:month,ga:day',
