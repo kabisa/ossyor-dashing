@@ -5,6 +5,7 @@ ENVied.require
 
 def get_redmine_issue_count(tracker_id, priority = nil)
   url = "https://falatados.ehv.campus.philips.com/projects/oss/issues.json?tracker_id=#{tracker_id}&limit=1"
+  url += "&status_id=!5"
   if priority
     url += "&priority_id=#{priority}"
   end
