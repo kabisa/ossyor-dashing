@@ -25,7 +25,7 @@ def to_story_json(story, project)
   }
 end
 
-SCHEDULER.every '3m', first_in: 0 do
+SCHEDULER.every '30m', first_in: 0 do
   story_fields = 'name,story_type,owners'
 
   rejected = project.stories(
@@ -39,7 +39,7 @@ SCHEDULER.every '3m', first_in: 0 do
   )
   upcoming_json = (rejected + upcoming).select do |story|
     story.labels.select { |label| label.name == 'impeded' }.empty?
-  end.map { |story| to_story_json story, project }[0...3]
+  end[0...3].map { |story| to_story_json story, project }
 
   work_in_progress = project.stories(
     with_state: 'started',
