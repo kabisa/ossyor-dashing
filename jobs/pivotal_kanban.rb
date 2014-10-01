@@ -46,6 +46,11 @@ SCHEDULER.every '30m', first_in: 0 do
     fields: story_fields
   )
   work_in_progress_json = work_in_progress.map { |story| to_story_json story, project }
+    .sort do |a, b|
+    next 1 if a[:progress] == '??'
+    next -1 if b[:progress] == '??'
+    b[:progress] <=> a[:progress]
+  end
 
   demo = project.stories(
     with_state: 'finished',
