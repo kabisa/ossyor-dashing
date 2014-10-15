@@ -1,20 +1,7 @@
 <h1 class="title" data-bind="title"></h1>
 <ul>
-  <li data-bind-class="story.kind | append ' story'" data-foreach-story="stories">
-    <span class='title' data-bind="story.title"></span>
-
-    <div class="owners">
-      <img class="owner" data-foreach-owner="story.owners" data-bind-src="'/assets/pivotal/owners/' | append owner | append '.jpg'" />
-      <figure class="progress pie">
-        <div class="left">
-          <span></span>
-        </div>
-        <div class="right">
-          <span></span>
-        </div>
-      </figure>
-    </div>
-
-    </li>
-  </ul>
+  <li data-foreach-story="stories">
+  <div data-view="PivotalStory" data-view-widget="story"></div>
+  </li>
+</ul>
 

@@ -5,79 +5,102 @@ ENVied.require
 client = TrackerApi::Client.new(token: ENVied.PIVOTAL_TRACKER_API_KEY)
 project  = client.project(ENVied.PIVOTAL_TRACKER_PROJECT)
 
+ICON_MAPPING = {
+  'started' => 'wrench',
+  'accepted' => 'ok',
+  'rejected' => 'thumbs-down-alt',
+  'finished' => 'play',
+  'delivered' => 'question',
+  'impeded' => 'exclamation-sign'
+}
+
 def to_story_json(story, project)
   #tasks = story.tasks
   tasks = project.story(story.id).tasks
-  completed = tasks.select { |t| t.complete }
+  completed = tasks.select do |t|
+    t.complete || t.description[0..1] == '~~'
+  end
   if tasks.length > 0
     progress = ((completed.length.to_f / tasks.length) * 100).round
   else
-    progress = '??'
+    progress = nil
   end
 
+  is_impeded = story.labels.map(&:name).any? { |l| l == 'impeded' }
+  state = is_impeded ? 'impeded' : story.current_state
   {
+    id: story.id,
     title: story.name,
     kind: story.story_type,
-    owners: story.owners.map { |owner| owner.initials },
-    #tasks: tasks.length,
-    #completed: completed.length,
-    progress: progress
+    state: state,
+    icon: ICON_MAPPING[state],
+    owners: story.owners.map do |owner|
+      {
+        email: owner.email,
+        md5: Digest::MD5.hexdigest(owner.email.downcase),
+        name: owner.name,
+        initials: owner.initials
+      }
+    end,
+    progress: {
+      parts: tasks.length,
+      progress: progress
+    }
   }
 end
 
-SCHEDULER.every '30m', first_in: 0 do
-  story_fields = 'name,story_type,owners'
+def send_if_changed(lists, entry, items)
+  previous_list = lists[entry] || []
+  current_list = items.map { |s| s[:id] }
+  return if current_list == previous_list
+  lists[entry] = current_list
+  send_event("pivotal_#{entry}", { stories: current_list })
+end
 
-  rejected = project.stories(
-    with_state: 'rejected',
-    fields: story_fields
-  )
-  upcoming = project.stories(
-    with_state: 'unstarted',
-    fields: story_fields + ',labels',
-    limit: 10
-  )
-  upcoming_json = (rejected + upcoming).select do |story|
-    story.labels.select { |label| label.name == 'impeded' }.empty?
-  end[0...3].map { |story| to_story_json story, project }
+STORY_FIELDS = 'name,story_type,owners,current_state,labels'
+
+lists = {}
+
+SCHEDULER.every '30m', first_in: 0 do
 
   work_in_progress = project.stories(
     with_state: 'started',
-    fields: story_fields
+    fields: STORY_FIELDS
   )
   work_in_progress_json = work_in_progress.map { |story| to_story_json story, project }
     .sort do |a, b|
-    next 1 if a[:progress] == '??'
-    next -1 if b[:progress] == '??'
-    b[:progress] <=> a[:progress]
+    next 1 if a[:progress][:progress] == nil
+    next -1 if b[:progress][:progress] == nil
+    b[:progress][:progress] <=> a[:progress][:progress]
   end
 
   demo = project.stories(
-    with_state: 'finished',
-    fields: story_fields
+    with_state: 'rejected',
+    fields: STORY_FIELDS
   ) + project.stories(
     with_state: 'delivered',
-    fields: story_fields
+    fields: STORY_FIELDS
+  ) + project.stories(
+    with_state: 'finished',
+    fields: STORY_FIELDS
   )
   demo_json = demo.map { |story| to_story_json story, project }
 
   done = project.stories(
     with_state: 'accepted',
-    fields: story_fields,
+    fields: STORY_FIELDS,
     accepted_after: (DateTime.now - 7).iso8601
-  ).reverse
+  ).reverse.reject do |s|
+    (s.labels.map(&:name) & ['achievements']).any?
+  end
   done_json = done.map { |story| to_story_json story, project }
 
-  impeded = project.stories(
-    with_label: 'impeded',
-    fields: story_fields,
-  )
-  impeded_json = impeded.map { |story| to_story_json story, project }
+  wip_list = demo_json + work_in_progress_json
+  wip_list.each { |story| send_event("pivotal_story_#{story[:id]}", story) }
+  done_json.each { |story| send_event("pivotal_story_#{story[:id]}", story) }
 
-  send_event('pivotal_upcoming', { stories: upcoming_json })
-  send_event('pivotal_wip', { stories: work_in_progress_json })
-  send_event('pivotal_demo', { stories: demo_json })
-  send_event('pivotal_done', { stories: done_json })
-  send_event('pivotal_impeded', { stories: impeded_json })
+  #TODO: Only send this event on changes with previous send, to prevent
+  #unneccesary refreshes
+  send_if_changed(lists, 'wip', wip_list)
+  send_if_changed(lists, 'done', done_json)
 end
-

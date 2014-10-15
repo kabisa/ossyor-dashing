@@ -1,0 +1,20 @@
+<div data-bind-class="kind | append ' story'">
+  <span class='title' data-bind="title | truncate 135"></span>
+
+  <div class="badges">
+    <i data-bind-class="icon | prepend 'icon-' | append ' story-status'"></i>
+    <img class="owner"
+    data-foreach-owner="owners"
+    data-bind-title="owner.name"
+    data-bind-src="owner.md5 | prepend 'http://www.gravatar.com/avatar/' | append '.jpg?d=identicon'" />
+    <figure class="progress pie" data-hideif="progress.parts | equals 0">
+      <div class="left">
+        <span></span>
+      </div>
+      <div class="right">
+        <span></span>
+      </div>
+      <i class="icon-check"></i>
+    </figure>
+  </div>
+</div>
