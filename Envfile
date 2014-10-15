@@ -8,7 +8,10 @@ variable :GOOGLE_SERVICE_ACCOUNT, :string, default: false
 variable :GOOGLE_KEY_PATH, :string, default: false
 variable :GOOGLE_ANALYTICS_PROFILE, :string, default: false
 
-variable :HLD_SERVERS, :array, default: 'pwl'
+variable :HLD_SERVERS, :array, default: ['pwl']
+
+variable :HLD_NAMESPACES, :array, default: ['HL1']
+variable :HLD_STORAGE, :string
 
 # A sample Envfile
 # enable_defaults! { ENV['RACK_ENV'] != 'production' }

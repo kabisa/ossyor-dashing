@@ -1,42 +1,36 @@
 require 'net/http'
 require 'xmlsimple'
 require 'date'
+require 'envied'
+ENVied.require
+
+def collect_counts(namespaces, file_pattern)
+  namespaces.map do |namespace|
+    begin
+      http = Net::HTTP.new(ENVied.HLD_STORAGE)
+      response = http.request(Net::HTTP::Get.new(format(file_pattern, namespace)))
+      XmlSimple.xml_in(response.body, { 'ForceArray' => false })['catalog-item'].count
+    rescue
+      nil
+    end
+  end
+end
 
 SCHEDULER.every '30m', :first_in => 0 do |job|
-  # http://assets-pwl-philips-com.s3.amazonaws.com/backend/ROOMS-HL2-global-000900000000X.xml
 
-  namespaces = %w(HL1 HL2 HL3)
-  luminaire_counts = namespaces.map do |namespace|
-    begin
-      http = Net::HTTP.new('assets-pwl-philips-com.s3.amazonaws.com')
-      response = http.request(Net::HTTP::Get.new("/backend/ROOMS-#{namespace}-global-000900000000X.xml"))
-      XmlSimple.xml_in(response.body, { 'ForceArray' => false })['catalog-item'].count
-    rescue
-      nil
-    end
-  end
-  luminaire_counts += namespaces.map do |namespace|
-    begin
-      http = Net::HTTP.new('assets.pwl.philips.com.s3.amazonaws.com')
-      response = http.request(Net::HTTP::Get.new("/backend/ROOMS-#{namespace}-global-00090000.xml"))
-      XmlSimple.xml_in(response.body, { 'ForceArray' => false })['catalog-item'].count
-    rescue
-      nil
-    end
-  end
+  namespaces = ENVied.HLD_NAMESPACES
+  luminaire_counts = collect_counts(namespaces, '/backend/ROOMS-%s-global-000900000000X.xml')
+  luminaire_counts += collect_counts(namespaces, '/backend/ROOMS-%s-global-00090000.xml')
+  luminaire_counts += collect_counts(namespaces, '/backend/catalog-items-%s.xml')
 
   luminaire_counts = luminaire_counts.compact.uniq.sort.reverse
 
-  #planned_count = ((((Date.today.year - 2013) * 12) + (Date.today.month - 1)) * 200) + 50
-
   current_count = luminaire_counts[0]
-  previous_count = luminaire_counts[1]
+  previous_count = luminaire_counts[1] || current_count
   last_released = current_count - previous_count
 
   send_event('luminaire_count', {
     current: current_count,
-    #targetCount: planned_count,
-    #difference:  current_count - planned_count,
     lastReleased: last_released.abs,
     arrow: last_released > 0 ? 'icon-arrow-up' : 'icon-arrow-down'
   })
