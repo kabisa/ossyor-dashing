@@ -8,5 +8,3 @@ class Dashing.JenkinsJobRun extends Dashing.NestedWidget
       when 'success' then 'ok'
       when 'failed' then 'remove'
       else 'question'
-
-

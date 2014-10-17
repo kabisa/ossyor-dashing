@@ -1,3 +1,12 @@
+@keyframes jenkins-build-branch {
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+@-webkit-keyframes jenkins-build-branch {
+  from { opacity: 1; }
+  to { opacity: 0.3; }
+}
+
 $ci-success: #008000;
 $ci-failure: #f00;
 $ci-pending: #808080;
@@ -14,6 +23,11 @@ $ci-pending: #808080;
     &.failed {
       color: #f00;
     }
+  }
+
+  .building {
+    -webkit-animation: jenkins-build-branch 1s linear 0 infinite alternate;
+    animation: jenkins-build-branch 1s linear 0 infinite alternate;
   }
 
   .running {

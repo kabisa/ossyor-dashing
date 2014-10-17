@@ -1,8 +1,10 @@
 require 'sinatra/cyclist'
 require 'dashing'
+require 'envied'
+ENVied.require
 
 configure do
-  set :auth_token, 'YOUR_AUTH_TOKEN'
+  set :auth_token, ENVied.DASHING_AUTH_TOKEN
   set :default_dashboard, 'ossyor'
 
   helpers do
