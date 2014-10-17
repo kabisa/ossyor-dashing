@@ -67,6 +67,12 @@ lists = {}
 
 SCHEDULER.every '30m', first_in: 0 do
 
+  upcoming_release = project.stories(
+    with_state: 'unstarted',
+    limit: 2,
+    fields: STORY_FIELDS
+  )[0..2].select { |story| story.story_type == 'release' }
+
   work_in_progress = project.stories(
     with_state: 'started',
     fields: STORY_FIELDS
@@ -78,7 +84,7 @@ SCHEDULER.every '30m', first_in: 0 do
     b[:progress][:progress] <=> a[:progress][:progress]
   end
 
-  demo = project.stories(
+  demo = upcoming_release + project.stories(
     with_state: 'rejected',
     fields: STORY_FIELDS
   ) + project.stories(
