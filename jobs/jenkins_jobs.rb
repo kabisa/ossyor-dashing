@@ -14,8 +14,8 @@ rescue
 end
 
 SCHEDULER.every '30s', :first_in => 0 do
-  http = Net::HTTP.new(jenkins_host,jenkins_port)
-  url  = '/view/%s/api/json?tree=jobs[name,color]' % jenkins_view
+  http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
+  url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
   response = http.request(Net::HTTP::Get.new(url))
   jobs     = JSON.parse(response.body)['jobs']
 
