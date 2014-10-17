@@ -102,5 +102,5 @@ SCHEDULER.every '30s', :first_in => 0 do
     send_job_list('unstable', jobs.reject { |j| j['stable'] })
     send_job_list('jobs', jobs)
   end
-end #if jenkins_reachable
+end if jenkins_reachable
 
