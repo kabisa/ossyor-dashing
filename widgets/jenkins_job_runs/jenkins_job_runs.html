@@ -1,0 +1,9 @@
+<i data-bind-class="state | append ' icon-background icon-code-fork'"></i>
+<h1 class="title" data-bind="title"></h1>
+
+<code>
+  <div data-foreach-job="jobs">
+    <div data-view="JenkinsJobRun" data-view-widget="job | prepend 'jenkins_job_'">
+    </div>
+  </div>
+</code>

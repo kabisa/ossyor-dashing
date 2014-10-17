@@ -1,0 +1,11 @@
+.widget-jenkins-job-runs {
+  background-color: #800000;
+
+  &.success {
+    background-color: rgba(0, 128, 0, .5);
+  }
+
+  code {
+    text-align: left;
+  }
+}

@@ -13,6 +13,12 @@ rescue
   puts 'Jenkins not reachable, skipping updates'
 end
 
+def send_job_list(name, list)
+  overal_state = 'success'
+  overal_state = 'failed' if list.any? { |j| j['state'] != 'success' }
+  send_event("jenkins_#{name}", jobs: list.map { |j| j['name'] }, state: overal_state)
+end
+
 SCHEDULER.every '30s', :first_in => 0 do
   http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
   url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
@@ -20,7 +26,7 @@ SCHEDULER.every '30s', :first_in => 0 do
   jobs     = JSON.parse(response.body)['jobs']
 
   #jobs = [{
-    #'color' => 'red',
+    #'color' => 'blue',
     #'name' => 'ossyor_develop'
   #}, {
     #'color' => 'blue_anime',
@@ -92,9 +98,9 @@ SCHEDULER.every '30s', :first_in => 0 do
     end
 
     # send list of 'stable' branches
-    send_event('jenkins_stable', jobs: jobs.select { |j| j['stable'] }.map { |j| j['name'] })
-    send_event('jenkins_unstable', jobs: jobs.reject { |j| j['stable'] }.map { |j| j['name'] })
-    send_event('jenkins_jobs', jobs: jobs.map { |j| j['name'] })
+    send_job_list('stable', jobs.select { |j| j['stable'] })
+    send_job_list('unstable', jobs.reject { |j| j['stable'] })
+    send_job_list('jobs', jobs)
   end
-end if jenkins_reachable
+end #if jenkins_reachable
 
