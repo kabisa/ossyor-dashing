@@ -1,0 +1,105 @@
+// ----------------------------------------------------------------------------
+// Widget-jenkins-jobs styles
+// ----------------------------------------------------------------------------
+@mixin to-foreground {
+  z-index: 5;
+  box-shadow: 0 0 6px 9px rgba(0, 0, 0, .3);
+  -webkit-transform: scale(1.10);
+}
+
+$ci-success: #008000;
+$ci-failure: #f00;
+$ci-pending: #808080;
+
+@keyframes jenkins-build-success {
+  from { background-color: $ci-success; }
+  to { background-color: lighten($ci-success, 10%); }
+}
+@-webkit-keyframes jenkins-build-success {
+  from { background-color: $ci-success; }
+  to { background-color: lighten($ci-success, 10%); }
+}
+@keyframes jenkins-build-failure {
+  from { background-color: $ci-failure; }
+  to { background-color: lighten($ci-failure, 20%); }
+}
+@-webkit-keyframes jenkins-build-failure {
+  from { background-color: $ci-failure; }
+  to { background-color: lighten($ci-failure, 20%); }
+}
+@keyframes jenkins-build-pending {
+  from { background-color: $ci-pending; }
+  to { background-color: lighten($ci-pending, 20%); }
+}
+@-webkit-keyframes jenkins-build-pending {
+  from { background-color: $ci-pending; }
+  to { background-color: lighten($ci-pending, 20%); }
+}
+
+.job-tile {
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .35);
+  height: 4.1em;
+  padding: .8em 0;
+  position: relative;
+
+  .title {
+    color: rgba(255, 255, 255, .7);
+  }
+
+  &.success {
+    background-color: $ci-success;
+
+    &.building {
+      -webkit-animation: jenkins-build-success 1s linear 0 infinite alternate;
+      animation: jenkins-build-success 1s linear 0 infinite alternate;
+      @include to-foreground;
+    }
+  }
+
+  &.failed {
+    background-color: $ci-failure;
+
+    &.building {
+      -webkit-animation: jenkins-build-failure 1s linear 0 infinite alternate;
+      animation: jenkins-build-failure 1s linear 0 infinite alternate;
+      @include to-foreground;
+    }
+  }
+
+  &.unknown,
+  &.aborted {
+    background-color: $ci-pending;
+
+    &.building {
+      -webkit-animation: jenkins-build-pending 1s linear 0 infinite alternate;
+      animation: jenkins-build-pending 1s linear 0 infinite alternate;
+      @include to-foreground;
+    }
+  }
+}
+
+.job span {
+  color: rgba(255, 255, 255, .8);
+  padding: 0 4px;
+}
+
+.job .queue-positions {
+  display: block;
+  font-size: small;
+  font-weight: bold;
+  left: 0;
+  position: absolute;
+  text-align: left;
+  top: 5px;
+
+  .queue-position {
+    background-color: rgba(255, 255, 255, .25);
+    border-radius: 6px;
+    display: inline-block;
+  }
+}
+
+.job .job-title {
+  margin-top: 10px;
+}

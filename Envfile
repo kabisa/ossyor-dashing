@@ -9,9 +9,12 @@ variable :GOOGLE_KEY_PATH, :string, default: false
 variable :GOOGLE_ANALYTICS_PROFILE, :string, default: false
 
 variable :HLD_SERVERS, :array, default: ['pwl']
-
 variable :HLD_NAMESPACES, :array, default: ['HL1']
 variable :HLD_STORAGE, :string
+
+variable :JENKINS_HOST, :string
+variable :JENKINS_VIEW, :string
+variable :JENKINS_PORT, :string, default: '8080'
 
 # A sample Envfile
 # enable_defaults! { ENV['RACK_ENV'] != 'production' }

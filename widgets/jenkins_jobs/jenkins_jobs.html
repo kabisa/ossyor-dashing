@@ -1,9 +1,6 @@
 <ul>
-  <li class="job" data-foreach-job="jobs" data-bind-data-state="job.state">
-    <span class='title' data-bind="job.name"></span>
-
-    <span class="queue-positions">
-      <span class="queue-position" data-foreach-position="job.queuePositions" data-bind="position"></span>
-    </span>
+  <li class="job" data-foreach-job="jobs">
+    <div data-view="JenkinsJob" data-view-widget="job | prepend 'jenkins_job_'">
+    </div>
   </li>
 </ul>

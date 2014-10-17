@@ -1,108 +1,11 @@
 // ----------------------------------------------------------------------------
 // Widget-jenkins-jobs styles
 // ----------------------------------------------------------------------------
-@mixin to-foreground {
-  z-index: 5;
-  box-shadow: 0px 0px 6px 9px rgba(0,0,0,.3);
-  -webkit-transform: scale(1.10);
-}
-
-$ci-success: green;
-$ci-failure: red;
-$ci-pending: gray;
-
-@keyframes jenkins-build-success {
-  from { background-color: $ci-success; }
-  to { background-color: lighten($ci-success, 10%); }
-}
-@-webkit-keyframes jenkins-build-success {
-  from { background-color: $ci-success; }
-  to { background-color: lighten($ci-success, 10%); }
-}
-@keyframes jenkins-build-failure {
-  from { background-color: $ci-failure; }
-  to { background-color: lighten($ci-failure, 20%); }
-}
-@-webkit-keyframes jenkins-build-failure {
-  from { background-color: $ci-failure; }
-  to { background-color: lighten($ci-failure, 20%); }
-}
-@keyframes jenkins-build-pending {
-  from { background-color: $ci-pending; }
-  to { background-color: lighten($ci-pending, 20%); }
-}
-@-webkit-keyframes jenkins-build-pending {
-  from { background-color: $ci-pending; }
-  to { background-color: lighten($ci-pending, 20%); }
-}
-
 .widget-jenkins-jobs {
-  /*background-color: lightgrey;*/
-  padding: 0px !important;
-
-  .title {
-    color: black;
-  }
+  padding: 0 !important;
 
   .job {
     float: left;
-    padding: 0.8em 0px;
-    height: 4.1em;
-    box-shadow: 0 1px 3px rgba(0,0,0,.35);
-    border-radius: 4px;
-    position: relative;
-  }
-
-  .job[data-state="blue"] {
-    background-color: $ci-success;
-  }
-  .job[data-state="blue_anime"] {
-    animation: jenkins-build-success 1s linear 0 infinite alternate;
-    -webkit-animation: jenkins-build-success 1s linear 0 infinite alternate;
-    @include to-foreground;
-  }
-
-  .job[data-state="red"] {
-    background-color: $ci-failure;
-  }
-  .job[data-state="red_anime"] {
-    animation: jenkins-build-failure 1s linear 0 infinite alternate;
-    -webkit-animation: jenkins-build-failure 1s linear 0 infinite alternate;
-    @include to-foreground;
-  }
-
-  .job[data-state="grey"],
-  .job[data-state="aborted"] {
-    background-color: $ci-pending;
-  }
-  .job[data-state="grey_anime"],
-  .job[data-state="aborted_anime"] {
-    animation: jenkins-build-pending 1s linear 0 infinite alternate;
-    -webkit-animation: jenkins-build-pending 1s linear 0 infinite alternate;
-    @include to-foreground;
-  }
-
-  .job span {
-    padding: 0px 4px;
-    color: rgba(255,255,255,.8);
-  }
-  .job .queue-positions {
-    display: block;
-    text-align: left;
-    position: absolute;
-    top: 5px;
-    left: 0;
-    font-size: small;
-    font-weight: bold;
-
-    .queue-position {
-      background-color: rgba(255, 255, 255, 0.25);
-      display: inline-block;
-      border-radius: 6px;
-    }
-  }
-  .job .job-title {
-    margin-top: 10px;
   }
 }
 
@@ -110,7 +13,7 @@ $ci-pending: gray;
   .job {
     margin-bottom: 1%;
     margin-left: 1%;
-    width: 32.0%;
+    width: 32%;
   }
 
   .job:nth-child(3n + 1) {

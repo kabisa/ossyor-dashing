@@ -17,4 +17,13 @@
       <i class="icon-check"></i>
     </figure>
   </div>
+  <div class="branches" data-showif="branches">
+    <i class="icon-code-fork"></i>
+    <code>
+      <div data-foreach-branch="branches">
+        <div data-view="JenkinsJobRun" data-view-widget="branch | prepend 'jenkins_job_'">
+        </div>
+      </div>
+    </code>
+  </div>
 </div>

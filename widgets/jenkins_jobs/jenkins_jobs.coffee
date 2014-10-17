@@ -1,1 +1,1 @@
-class Dashing.Jenkins_Jobs extends Dashing.Widget
+class Dashing.JenkinsJobs extends Dashing.Widget

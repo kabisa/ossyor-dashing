@@ -1,19 +1,23 @@
 class Dashing.PivotalStory extends Dashing.NestedWidget
-  onData: (data) =>
+  constructor: ->
+    super
     setTimeout(
-      => @setProgress()
+      => @updateProgressBadge()
       10
     )
 
-  ready: ->
-    @setProgress()
+  onData: (data) =>
+    setTimeout(
+      => @updateProgressBadge()
+      10
+    )
 
-  setProgress: ->
-    return unless @progress
+  updateProgressBadge: ->
+    return unless @progress?
     percent = @progress.progress
     percent = 0 unless @progress.progress
 
-    $story = $(@node)
+    $story = $(@get('node'))
     $pie = $story.find('.progress')
     $pie.attr('data-percent', percent)
     $left = $pie.find(".left span")

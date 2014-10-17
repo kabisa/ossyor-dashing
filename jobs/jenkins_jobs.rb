@@ -1,15 +1,13 @@
 require 'net/http'
 require 'json'
-
-jenkins_host = 'oss-ci.ddns.htc.nl.philips.com'
-jenkins_view = 'ossyor'
-jenkins_port = '8080'
+require 'envied'
+ENVied.require
 
 jenkins_reachable = false
 begin
-  http = Net::HTTP.new(jenkins_host,jenkins_port)
-  url  = '/view/%s/api/json?tree=jobs[name,color]' % jenkins_view
-  response = http.request(Net::HTTP::Get.new(url))
+  http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
+  url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
+  http.request(Net::HTTP::Get.new(url))
   jenkins_reachable = true
 rescue
   puts 'Jenkins not reachable, skipping updates'
@@ -18,19 +16,33 @@ end
 SCHEDULER.every '30s', :first_in => 0 do
   http = Net::HTTP.new(jenkins_host,jenkins_port)
   url  = '/view/%s/api/json?tree=jobs[name,color]' % jenkins_view
-
   response = http.request(Net::HTTP::Get.new(url))
   jobs     = JSON.parse(response.body)['jobs']
 
-  url  = '/queue/api/json?tree=items[inQueueSince,task[color,name]]'
-  response = http.request(Net::HTTP::Get.new(url))
-  queue_items    = JSON.parse(response.body)['items']
+  #jobs = [{
+    #'color' => 'red',
+    #'name' => 'ossyor_develop'
+  #}, {
+    #'color' => 'blue_anime',
+    #'name' => 'ossyor_epic-hotspots'
+  #}, {
+    #'color' => 'red_anime',
+    #'name' => 'ossyor_experiment-chardin'
+  #}, {
+    #'color' => 'grey',
+    #'name' => 'ossyor_feature-my-story-branch'
+  #}]
 
-  # Figure out of build is stalled...
-  # http://oss-ci.ddns.htc.nl.philips.com:8080/job/ossyor_feature-developers-page-readability/2/api/json?tree=building,duration,estimatedDuration
-  #
-  # Maybe use:
-  # /api/xml?tree=computer[executors[currentExecutable[url]],oneOffExecutors[currentExecutable[url]]]&xpath=//url&wrapper=builds
+  url = '/queue/api/json?tree=items[inQueueSince,task[name]]'
+  response = http.request(Net::HTTP::Get.new(url))
+  queue_items = JSON.parse(response.body)['items']
+
+  #queue_items = [{
+    #'inQueueSince' => Time.new,
+    #'task' => {
+      #'name' => 'ossyor_develop'
+    #}
+  #}]
 
   queue = {}
 
@@ -48,20 +60,41 @@ SCHEDULER.every '30s', :first_in => 0 do
   end
 
   if jobs
-    jobs.map! { |job|
-      color = 'grey'
+    jobs.map! do |job|
 
-      case job['color']
-      when 'blue', 'blue_anime', 'red', 'red_anime', 'aborted', 'aborted_anime', 'grey', 'grey_anime'
-        color = job['color']
+      state = case job['color']
+      when 'blue', 'blue_anime' then 'success'
+      when 'red', 'red_anime' then 'failed'
+      when 'aborted', 'aborted_anime' then 'aborted'
+      else 'unknown'
       end
+      building = job['color'][-6..-1] == '_anime'
+      name = job['name'][7..-1]
 
-      { name: job['name'], state: color, queuePositions: queue[job['name']] }
-    }
+      stable = false
+      stable = true if name[0..7] == 'release-'
+      stable = true if name == 'develop'
+      stable = true if name[0..4] == 'epic-'
 
+      {
+        'name' => name,
+        'state' => state,
+        'stable' => stable,
+        'queuePositions' => queue[job['name']],
+        'building' => building
+      }
+    end
     jobs.sort_by { |job| job['name'] }
 
-    send_event('jenkins_jobs', { jobs: jobs })
+    # send all build stati as seperate events
+    jobs.each do |job|
+      send_event("jenkins_job_#{job['name']}", job)
+    end
+
+    # send list of 'stable' branches
+    send_event('jenkins_stable', jobs: jobs.select { |j| j['stable'] }.map { |j| j['name'] })
+    send_event('jenkins_unstable', jobs: jobs.reject { |j| j['stable'] }.map { |j| j['name'] })
+    send_event('jenkins_jobs', jobs: jobs.map { |j| j['name'] })
   end
 end if jenkins_reachable
 

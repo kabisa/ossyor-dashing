@@ -1,0 +1,22 @@
+$ci-success: #008000;
+$ci-failure: #f00;
+$ci-pending: #808080;
+
+.widget-jenkins-job-run {
+  display: block;
+  font-size: .9em;
+
+  i {
+    &.success {
+      color: #008000;
+    }
+
+    &.failed {
+      color: #f00;
+    }
+  }
+
+  .running {
+    padding-left: 1.5em;
+  }
+}

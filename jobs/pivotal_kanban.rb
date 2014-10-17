@@ -26,6 +26,9 @@ def to_story_json(story, project)
     progress = nil
   end
 
+  branches = story.description.to_s.scan(/branch:`([^`]+)`/).flatten
+
+  branches = nil if branches.empty?
   is_impeded = story.labels.map(&:name).any? { |l| l == 'impeded' }
   state = is_impeded ? 'impeded' : story.current_state
   {
@@ -34,6 +37,7 @@ def to_story_json(story, project)
     kind: story.story_type,
     state: state,
     icon: ICON_MAPPING[state],
+    branches: branches,
     owners: story.owners.map do |owner|
       {
         email: owner.email,
@@ -57,7 +61,7 @@ def send_if_changed(lists, entry, items)
   send_event("pivotal_#{entry}", { stories: current_list })
 end
 
-STORY_FIELDS = 'name,story_type,owners,current_state,labels'
+STORY_FIELDS = 'name,description,story_type,owners,current_state,labels'
 
 lists = {}
 

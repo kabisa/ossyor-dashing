@@ -1,0 +1,12 @@
+<p>
+  <i data-bind-class="icon | prepend 'icon-' | append ' ' | append state"></i>
+  <span data-bind="title"></span>
+  <span class="queue-positions" data-showif="queuePositions">
+    (queued on:
+    <span class="queue-position" data-foreach-position="queuePositions" data-bind="position"></span>
+    )
+  </span>
+</p>
+<p class="running" data-showif="building">
+  building...
+</p>
