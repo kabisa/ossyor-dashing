@@ -20,9 +20,9 @@ $tracker-support: hsl(247, 73%, 26%);
   to { background-color: lighten($tracker-support, 10%); }
 }
 
-.widget-issue-count {
+.widget.widget-issue-count {
   font-size: .6em;
-  padding: 0 !important;
+  padding: 0;
 
   .value {
     font-size: 2.5em;
@@ -48,14 +48,19 @@ $tracker-support: hsl(247, 73%, 26%);
       color: hsl(60, 46%, 51%);
     }
   }
+
   &.redmine_support {
-    &.status-alert {
-      animation: alert-support 1s linear 0 infinite alternate;
-      -webkit-animation: alert-support 1s linear 0 infinite alternate;
-    }
-    /*background-color: #1E1275;*/
+    // background-color: #1E1275;
     background-color: darken($tracker-support, 10%);
-    .value, .title, .total {
+
+    &.status-alert {
+      -webkit-animation: alert-support 1s linear 0 infinite alternate;
+      animation: alert-support 1s linear 0 infinite alternate;
+    }
+
+    .value,
+    .title,
+    .total {
       color: hsl(0, 0, 100%);
     }
   }
