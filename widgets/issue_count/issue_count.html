@@ -1,7 +1,7 @@
-<i data-bind-class="icon | prepend 'icon-background icon-'"></i>
-<h1 class="title" data-bind="title" data-style-color="color"></h1>
-
-<h2 class="value" data-bind="high | shortenedNumber | prepend prefix"></h2>
+<p class="value">
+  <i data-bind-class="icon | prepend 'icon-'"></i>
+  <span data-bind="title | pluralize high"></span>
+</p>
 
 <p class="total">
   <span data-bind="total | shortenedNumber | append ' total'"></span>

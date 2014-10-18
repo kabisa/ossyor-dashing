@@ -1,8 +1,10 @@
 class Dashing.IssueCount extends Dashing.Widget
+  ready: ->
+    @updateNode()
+
   onData: (data) ->
-    if data.high > 0
-      # add new class
-      $(@get('node')).addClass "status-alert"
-    else
-      $(@get('node')).removeClass "status-alert"
+    @updateNode()
+
+  updateNode: ->
+    #$(@get('node')).toggleClass('status-alert', @get('high') > 0)
 
