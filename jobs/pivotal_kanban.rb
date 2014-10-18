@@ -15,8 +15,8 @@ ICON_MAPPING = {
 }
 
 def to_story_json(story, project)
-  #tasks = story.tasks
-  tasks = project.story(story.id).tasks
+  tasks = story.tasks
+  #tasks = project.story(story.id).tasks
   completed = tasks.select do |t|
     t.complete || t.description[0..1] == '~~'
   end
@@ -61,17 +61,22 @@ def send_if_changed(lists, entry, items)
   send_event("pivotal_#{entry}", { stories: current_list })
 end
 
-STORY_FIELDS = 'name,description,story_type,owners,current_state,labels'
+STORY_FIELDS = 'project_id,name,description,story_type,owners,current_state,labels'
 
 lists = {}
 
-SCHEDULER.every '30m', first_in: 0 do
+SCHEDULER.every '10m', first_in: 0 do
 
-  upcoming_release = project.stories(
-    with_state: 'unstarted',
-    limit: 2,
-    fields: STORY_FIELDS
-  )[0..2].select { |story| story.story_type == 'release' }
+  # Due to a bug in tracker_api, the `limit` option does
+  # not work, trying to fetch an upcoming release will fetch around 311 unstarted
+  # userstories... which take a long time to process
+
+  #upcoming_release = project.stories(
+    #with_state: 'unstarted',
+    #limit: 2,
+    #fields: STORY_FIELDS
+  #)[0..2].select { |story| story.story_type == 'release' }
+  upcoming_release = []
 
   work_in_progress = project.stories(
     with_state: 'started',
