@@ -6,6 +6,11 @@ $badge-size: 60px;
   margin: .5em;
   padding: .5em;
 
+  .title {
+    font-size: 1.3em;
+    margin-bottom: .5em;
+  }
+
   .pie::before {
     background-color: #bcbc49;
   }
@@ -53,7 +58,7 @@ $badge-size: 60px;
     display: inline-block;
     font-size: $badge-size * .7;
     height: $badge-size;
-    margin: 15px 0 5px 0;
+    margin: 15px 0 5px;
     text-align: center;
     vertical-align: top;
     width: $badge-size;
