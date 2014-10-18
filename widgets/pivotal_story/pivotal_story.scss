@@ -37,25 +37,37 @@ $badge-size: 60px;
       line-height: $badge-size;
     }
   }
+
+  .badges {
+    display: inline-block;
+    vertical-align: top;
+  }
 }
 
 .branches {
+  display: inline-block;
   text-align: top;
+  vertical-align: top;
 
   > i {
     display: inline-block;
     font-size: $badge-size * .7;
     height: $badge-size;
+    margin: 15px 0 5px 0;
     text-align: center;
-    width: $badge-size;
     vertical-align: top;
+    width: $badge-size;
+
+    &::before {
+      vertical-align: middle;
+    }
   }
 
   code {
-    padding: 0.5em;
     background-color: rgba(0, 0, 0, .6);
     display: inline-block;
-
+    padding: .5em;
+    vertical-align: top;
   }
 }
 
