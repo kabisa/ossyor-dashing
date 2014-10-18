@@ -114,8 +114,28 @@ SCHEDULER.every '10m', first_in: 0 do
   wip_list.each { |story| send_event("pivotal_story_#{story[:id]}", story) }
   done_json.each { |story| send_event("pivotal_story_#{story[:id]}", story) }
 
-  #TODO: Only send this event on changes with previous send, to prevent
-  #unneccesary refreshes
   send_if_changed(lists, 'wip', wip_list)
   send_if_changed(lists, 'done', done_json)
+
+  achievement_chore = project.stories(
+    with_state: 'accepted',
+    with_label: 'achievements',
+    accepted_after: (DateTime.now - 15).iso8601
+  ).reverse.first
+  if achievement_chore
+    achievements = []
+    goals = []
+    achievement_chore.tasks.map do |t|
+      if t.complete
+        achievements << {
+          name: t.description
+        }
+      else
+        goals << {
+          title: t.description
+        }
+      end
+    end
+    send_event('goals_achievements', achievements: achievements, goals: goals)
+  end
 end

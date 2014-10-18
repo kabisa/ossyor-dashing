@@ -1,17 +1,34 @@
+<script type='text/javascript'>
+$(function() {
+  // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+  // 1680x1050
+  Dashing.widget_base_dimensions = [330, 90]
+  Dashing.numColumns = 5
+});
+</script>
 <% content_for :title do %>OSS - YOR Kanban board<% end %>
 <div class="gridster">
   <ul>
-    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="3">
       <div data-id="environment_versions" data-view="EnvironmentVersions" data-title="Environments"></div>
     </li>
-    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+    <li data-row="1" data-col="2" data-sizex="4" data-sizey="1">
+      <div data-id="goals_achievements" data-view="Achievements"></div>
+    </li>
+    <li data-row="4" data-col="1" data-sizex="1" data-sizey="3">
       <div data-id="jenkins_stable" data-view="JenkinsJobRuns" data-title="Stable Branches"></div>
     </li>
-    <li data-row="1" data-col="2" data-sizex="2" data-sizey="3">
+    <li data-row="2" data-col="2" data-sizex="2" data-sizey="6">
       <div data-id="pivotal_wip" data-view="PivotalLane" data-title="WIP"></div>
     </li>
-    <li data-row="1" data-col="4" data-sizex="2" data-sizey="3">
+    <li data-row="2" data-col="4" data-sizex="2" data-sizey="6">
       <div data-id="pivotal_done" data-view="PivotalLane" data-title="Done"></div>
+    </li>
+    <li data-row="7" data-col="1" data-sizex="1" data-sizey="3">
+      <div data-id="redmine_bugs" data-view="IssueCount" data-title="Bugs" data-icon="bug"></div>
+    </li>
+    <li data-row="10" data-col="1" data-sizex="1" data-sizey="3">
+      <div data-id="redmine_support" data-view="IssueCount" data-title="Support" data-icon="phone"></div>
     </li>
   </ul>
 </div>
