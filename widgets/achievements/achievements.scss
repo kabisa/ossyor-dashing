@@ -1,5 +1,21 @@
-.widget-achievements {
-  p {
-    display: none;
+.widget.widget-achievements {
+  padding: 0;
+
+  .achievements {
+    height: 4em;
+    overflow: hidden;
   }
+
+  .achievement {
+    height: 4em;
+    transition: margin-top .5s;
+
+    p {
+      background: darken(#ffd700, 20%);
+      border: .2em solid #ffd700;
+      font-size: 1.5em;
+      line-height: 2em;
+      text-shadow: 4px 4px 2px rgba(0, 0, 0, .5);
+    }
 }
+  }

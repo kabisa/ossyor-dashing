@@ -1,3 +1,7 @@
-<p data-foreach-goal="goals" data-bind="goal.name"></p>
-<p>Woooohoooo!!!!</p>
-<p data-foreach-achievement="achievements" data-bind="achievement.name"></p>
+<div class="achievements">
+  <div class="achievement" data-foreach-achievement="achievements">
+    <p>
+      <i class="icon-trophy"></i> <span data-bind="achievement.name"></span>!!
+    </p>
+  </div>
+</div>

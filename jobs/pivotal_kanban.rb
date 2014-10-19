@@ -10,7 +10,7 @@ ICON_MAPPING = {
   'accepted' => 'ok',
   'rejected' => 'thumbs-down-alt',
   'finished' => 'play',
-  'delivered' => 'question',
+  'delivered' => 'legal',
   'impeded' => 'exclamation-sign'
 }
 
