@@ -10,8 +10,8 @@ class Dashing.JenkinsJobMessages extends Dashing.NestedWidget
 
     h = today.getHours()
     m = today.getMinutes()
+    h = @formatTime(h)
     m = @formatTime(m)
-    s = @formatTime(s)
     @set('time', "#{h}:#{m}")
 
   formatTime: (i) ->

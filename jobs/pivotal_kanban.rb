@@ -54,11 +54,15 @@ def to_story_json(story, project)
 end
 
 def send_if_changed(lists, entry, items)
-  previous_list = lists[entry] || []
   current_list = items.map { |s| s[:id] }
+  send_if_changed_raw(lists, "pivotal_#{entry}", current_list, :stories)
+end
+
+def send_if_changed_raw(lists, entry, current_list, key)
+  previous_list = lists[entry] || []
   return if current_list == previous_list
   lists[entry] = current_list
-  send_event("pivotal_#{entry}", { stories: current_list })
+  send_event(entry, { key => current_list })
 end
 
 STORY_FIELDS = 'project_id,name,description,story_type,owners,current_state,labels'
@@ -136,6 +140,7 @@ SCHEDULER.every '10m', first_in: 0 do
         }
       end
     end
-    send_event('goals_achievements', achievements: achievements, goals: goals)
+    send_if_changed_raw(lists, 'achievements', achievements, :achievements)
+    send_if_changed_raw(lists, 'goals', goals, :goals)
   end
 end
