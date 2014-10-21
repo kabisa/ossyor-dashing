@@ -12,5 +12,5 @@ class Dashing.Achievements extends Dashing.Widget
       @shown += 1
     else
       @shown = 0
-    $(@node).find('.achievement:first').css(marginTop: "-#{(@shown * 4)}em")
+    $(@node).find('.achievement:first').css(marginTop: "-#{(@shown * 2)}em")
 
