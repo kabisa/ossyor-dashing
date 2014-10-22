@@ -1,7 +1,7 @@
 $badge-size: 60px;
 
 .story {
-  background-color: #bcbc49;
+  border-radius: 5px;
   font-size: .8em;
   margin: .5em;
   padding: .5em;
@@ -11,23 +11,24 @@ $badge-size: 60px;
     margin-bottom: .5em;
   }
 
+  &,
   .pie::before {
-    background-color: #bcbc49;
+    background-color: hsl(60, 46%, 51%);
   }
 
   &.chore,
   &.chore .pie::before {
-    background-color: #808080;
+    background-color: hsl(0, 0%, 50%);
   }
 
   &.bug,
   &.bug .pie::before {
-    background-color: #9a2e2e;
+    background-color: hsl(0, 54%, 39%);
   }
 
   &.release,
   &.release .pie::before {
-    background-color: #000050;
+    background-color: hsl(240, 100%, 16%);
   }
 
   .story-status {
