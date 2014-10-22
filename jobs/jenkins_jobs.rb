@@ -1,10 +1,11 @@
 require 'net/http'
 require 'json'
 require 'envied'
+require 'httparty'
 ENVied.require
 
 jenkins_reachable = false
-fake_jenkins = true
+fake_jenkins = false
 begin
   http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
   url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
@@ -31,6 +32,7 @@ def send_job_list(name, list)
   overal_state = 'success'
   overal_state = 'failed' if list.any? { |j| j['state'] != 'success' }
   send_event("jenkins_#{name}", jobs: list.map { |j| j['name'] }, state: overal_state)
+  relay_event("jenkins_#{name}", jobs: list.map { |j| j['name'] }, state: overal_state)
 end
 
 def fetch_jenkins_jobs
@@ -38,6 +40,14 @@ def fetch_jenkins_jobs
   url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
   response = http.request(Net::HTTP::Get.new(url))
   JSON.parse(response.body)['jobs']
+end
+
+def relay_event(name, data)
+  return unless ENVied.RELAY_EVENTS
+  HTTParty.post(
+    "http://#{ENVied.RELAY_EVENTS}/widgets/#{name}",
+    body:  data.merge(auth_token: ENVied.DASHING_AUTH_TOKEN).to_json
+  )
 end
 
 def fake_jenkins_jobs
@@ -73,7 +83,6 @@ def fake_queue_items
 end
 
 SCHEDULER.every '30s', :first_in => 0 do
-
   jobs = fake_jenkins ? fake_jenkins_jobs : fetch_jenkins_jobs
   queue_items = fake_jenkins ? fake_queue_items : fetch_queue_items
 
@@ -122,15 +131,18 @@ SCHEDULER.every '30s', :first_in => 0 do
     # send all build stati as seperate events
     jobs.each do |job|
       send_event("jenkins_job_#{job['name']}", job)
+      relay_event("jenkins_job_#{job['name']}", job)
     end
 
     # send list of 'stable' branches
     send_job_list('stable', jobs.select { |j| j['stable'] })
     send_job_list('unstable', jobs.reject { |j| j['stable'] })
     send_job_list('jobs', jobs)
-
-    clean_up_history(/^jenkins_job_[^m]{1}.*/, Time.now - 60) # cleanup jobs but not messages
-    clean_up_history(/^jenkins_job_messages_.*/, Time.now - (60 * 70)) # cleanup messages
   end
 end if jenkins_reachable || fake_jenkins
+
+SCHEDULER.every '30s', :first_in => 0 do
+  clean_up_history(/^jenkins_job_[^m]{1}.*/, Time.now - 60) # cleanup jobs but not messages
+  clean_up_history(/^jenkins_job_messages_.*/, Time.now - (60 * 70)) # cleanup messages
+end
 
