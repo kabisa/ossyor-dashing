@@ -65,22 +65,30 @@ def send_if_changed_raw(lists, entry, current_list, key)
   send_event(entry, { key => current_list })
 end
 
+def clean_up_history(pattern, time = Time.now)
+  Sinatra::Application.settings.history.select do |entry, data|
+    entry.match pattern
+  end.map do |entry, data|
+    { id: entry, updated_at: Time.at(JSON.parse(data[/{.*}/])['updatedAt']) }
+  end.select do |data|
+    data[:updated_at] < time
+  end.each do |to_remove|
+    Sinatra::Application.settings.history.delete to_remove[:id]
+  end
+end
+
 STORY_FIELDS = 'project_id,name,description,story_type,owners,current_state,labels'
 
 lists = {}
 
 SCHEDULER.every '10m', first_in: 0 do
 
-  # Due to a bug in tracker_api, the `limit` option does
-  # not work, trying to fetch an upcoming release will fetch around 311 unstarted
-  # userstories... which take a long time to process
-
-  #upcoming_release = project.stories(
-    #with_state: 'unstarted',
-    #limit: 2,
-    #fields: STORY_FIELDS
-  #)[0..2].select { |story| story.story_type == 'release' }
-  upcoming_release = []
+  upcoming_release = project.stories(
+    with_state: 'unstarted',
+    limit: 2,
+    auto_paginate: false,
+    fields: STORY_FIELDS
+  )[0..2].select { |story| story.story_type == 'release' }
 
   work_in_progress = project.stories(
     with_state: 'started',
@@ -143,4 +151,6 @@ SCHEDULER.every '10m', first_in: 0 do
     send_if_changed_raw(lists, 'achievements', achievements, :achievements)
     send_if_changed_raw(lists, 'goals', goals, :goals)
   end
+
+  clean_up_history(/^pivotal_story_\d+/, Time.now - (3 * 60))
 end
