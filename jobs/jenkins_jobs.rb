@@ -129,7 +129,8 @@ SCHEDULER.every '30s', :first_in => 0 do
     send_job_list('unstable', jobs.reject { |j| j['stable'] })
     send_job_list('jobs', jobs)
 
-    clean_up_history(/^jenkins_job_.*/, Time.now - 60) # also cleans up build messages
+    clean_up_history(/^jenkins_job_[^m]{1}.*/, Time.now - 60) # cleanup jobs but not messages
+    clean_up_history(/^jenkins_job_messages_.*/, Time.now - (60 * 70)) # cleanup messages
   end
 end if jenkins_reachable || fake_jenkins
 
