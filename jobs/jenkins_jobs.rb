@@ -45,7 +45,7 @@ end
 def relay_event(name, data)
   return unless ENVied.RELAY_EVENTS
   HTTParty.post(
-    "http://#{ENVied.RELAY_EVENTS}/widgets/#{name}",
+    "#{ENVied.RELAY_EVENTS}widgets/#{name}",
     body:  data.merge(auth_token: ENVied.DASHING_AUTH_TOKEN).to_json
   )
 end
