@@ -16,8 +16,9 @@ configure do
     end
 
     def authorized?
+      return true unless ENVied.DASHING_USER
       @auth ||=  Rack::Auth::Basic::Request.new(request.env)
-      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == ['oss', 'dashing']
+      @auth.provided? && @auth.basic? && @auth.credentials && @auth.credentials == [ENVied.DASHING_USER, ENVied.DASHING_PASSWORD]
     end
   end
 end

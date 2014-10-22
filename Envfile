@@ -17,4 +17,6 @@ variable :JENKINS_VIEW, :string, default: false
 variable :JENKINS_PORT, :string, default: '8080'
 
 variable :DASHING_AUTH_TOKEN, :string, default: 'YOUR_AUTH_TOKEN'
+variable :DASHING_USER, :string, default: false
+variable :DASHING_PASSWORD, :string, default: false
 variable :RELAY_EVENTS, :string, default: false
