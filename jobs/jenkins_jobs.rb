@@ -42,10 +42,10 @@ end
 
 def fake_jenkins_jobs
   [{
-    'color' => 'blue',
+    'color' => 'blue_anime',
     'name' => 'ossyor_develop'
   }, {
-    'color' => 'blue_anime',
+    'color' => 'red',
     'name' => 'ossyor_epic-hotspots'
   }, {
     'color' => 'red_anime',
@@ -57,6 +57,7 @@ def fake_jenkins_jobs
 end
 
 def fetch_queue_items
+  http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
   url = '/queue/api/json?tree=items[inQueueSince,task[name]]'
   response = http.request(Net::HTTP::Get.new(url))
   JSON.parse(response.body)['items']
