@@ -11,7 +11,8 @@ ICON_MAPPING = {
   'rejected' => 'thumbs-down-alt',
   'finished' => 'play',
   'delivered' => 'legal',
-  'impeded' => 'exclamation-sign'
+  'impeded' => 'exclamation-sign',
+  'unstarted' => 'bullhorn'
 }
 
 def to_story_json(story, project)
