@@ -86,7 +86,7 @@ SCHEDULER.every '10m', first_in: 0 do
 
   upcoming_release = project.stories(
     with_state: 'unstarted',
-    limit: 2,
+    limit: 1,
     auto_paginate: false,
     fields: STORY_FIELDS
   )[0..2].select { |story| story.story_type == 'release' }
@@ -94,7 +94,7 @@ SCHEDULER.every '10m', first_in: 0 do
   work_in_progress = project.stories(
     with_state: 'started',
     fields: STORY_FIELDS
-  )
+  ) + upcoming_release
   work_in_progress_json = work_in_progress.map { |story| to_story_json story, project }
     .sort do |a, b|
     next 1 if a[:progress][:progress] == nil
@@ -102,7 +102,7 @@ SCHEDULER.every '10m', first_in: 0 do
     b[:progress][:progress] <=> a[:progress][:progress]
   end
 
-  demo = upcoming_release + project.stories(
+  demo = project.stories(
     with_state: 'rejected',
     fields: STORY_FIELDS
   ) + project.stories(
