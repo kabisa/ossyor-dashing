@@ -3,7 +3,7 @@ class Dashing.PivotalStory extends Dashing.NestedWidget
     super
     setTimeout(
       => @updateProgressBadge()
-      100
+      2000
     )
 
   onData: (data) =>
