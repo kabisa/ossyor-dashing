@@ -4,6 +4,11 @@ $(function() {
   // 1680x1050
   Dashing.widget_base_dimensions = [320, 77]
   Dashing.numColumns = 1
+
+  setTimeout(function() {
+    gridster = $('.gridster ul').gridster().data('gridster');
+    gridster.disable()
+  }, 500);
 });
 </script>
 <% content_for :title do %>OSS - YOR Team board<% end %>
