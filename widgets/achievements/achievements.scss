@@ -134,7 +134,7 @@
   }
 
   .beam {
-    animation: swirlinglight 5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+    -webkit-animation: swirlinglight 5s infinite linear alternate, colorcycle 5s infinite linear alternate;
     background-color: hsl(0, 90%, 70%);
     border-radius: 50%;
     height: 16em;
@@ -147,7 +147,7 @@
     width: 4px;
 
     &::before {
-      animation: swirlinglight2 2.5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+      -webkit-animation: swirlinglight2 2.5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
       background-color: hsl(240, 80%, 70%);
       border-radius: 50%;
       color: hsl(240, 80%, 70%);
@@ -163,7 +163,7 @@
     }
 
     &::after {
-      animation: swirlinglight2 5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+      -webkit-animation: swirlinglight2 5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
       background-color: hsl(120, 60%, 80%);
       border-radius: 50%;
       color: hsl(120, 60%, 80%);
