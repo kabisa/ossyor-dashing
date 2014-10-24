@@ -54,6 +54,30 @@
   }
 }
 
+@-webkit-keyframes swirlinglight {
+  0% {
+    transform: rotate(-60deg);
+  }
+
+  50% {
+    width: 50px;
+  }
+
+  100% {
+    transform: rotate(60deg);
+  }
+}
+
+@-webkit-keyframes swirlinglight2 {
+  0% {
+    transform: rotate(-80deg);
+  }
+
+  100% {
+    transform: rotate(80deg);
+  }
+}
+
 @-webkit-keyframes wiggle {
   from {
     left: 2em;
@@ -106,6 +130,52 @@
       opacity: .7;
       position: absolute;
       top: .5em;
+    }
+  }
+
+  .beam {
+    animation: swirlinglight 5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+    background-color: hsl(0, 90%, 70%);
+    border-radius: 50%;
+    height: 16em;
+    left: 50%;
+    opacity: .7;
+    position: absolute;
+    top: 0;
+    transform: rotate(50deg);
+    transform-origin: 50% 0;
+    width: 4px;
+
+    &::before {
+      animation: swirlinglight2 2.5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+      background-color: hsl(240, 80%, 70%);
+      border-radius: 50%;
+      color: hsl(240, 80%, 70%);
+      content: '.';
+      height: 16em;
+      left: 50%;
+      opacity: .7;
+      position: absolute;
+      top: -30px;
+      transform: rotate(50deg);
+      transform-origin: 50% 0;
+      width: 8px;
+    }
+
+    &::after {
+      animation: swirlinglight2 5s -2.5s infinite linear alternate, colorcycle 5s infinite linear alternate;
+      background-color: hsl(120, 60%, 80%);
+      border-radius: 50%;
+      color: hsl(120, 60%, 80%);
+      content: '.';
+      height: 16em;
+      left: 50%;
+      opacity: .7;
+      position: absolute;
+      top: -30px;
+      transform: rotate(50deg);
+      transform-origin: 50% 0;
+      width: 14px;
     }
   }
 }
