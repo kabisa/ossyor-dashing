@@ -2,6 +2,7 @@ require 'google/api_client'
 require 'date'
 require 'envied'
 require 'httparty'
+require_relative './job_helpers'
 ENVied.require
 
 # Update these to match your own apps credentials
@@ -9,14 +10,6 @@ service_account_email = ENVied.GOOGLE_SERVICE_ACCOUNT # Email of service account
 key_file = ENVied.GOOGLE_KEY_PATH # File containing your private key
 key_secret = 'notasecret' # Password to unlock private key
 profile_id = ENVied.GOOGLE_ANALYTICS_PROFILE # Analytics profile ID.
-
-def relay_event(name, data)
-  return unless ENVied.RELAY_EVENTS
-  HTTParty.post(
-    "#{ENVied.RELAY_EVENTS}widgets/#{name}",
-    body:  data.merge(auth_token: ENVied.DASHING_AUTH_TOKEN).to_json
-  )
-end
 
 if service_account_email && key_file && key_secret && profile_id
 

@@ -2,6 +2,7 @@ require 'net/http'
 require 'json'
 require 'envied'
 require 'httparty'
+require_relative './job_helpers'
 ENVied.require
 
 jenkins_reachable = false
@@ -16,18 +17,6 @@ rescue
   puts 'Jenkins not reachable, skipping updates'
 end
 
-def clean_up_history(pattern, time = Time.now)
-  Sinatra::Application.settings.history.select do |entry, data|
-    entry.match pattern
-  end.map do |entry, data|
-    { id: entry, updated_at: Time.at(JSON.parse(data[/{.*}/])['updatedAt']) }
-  end.select do |data|
-    data[:updated_at] < time
-  end.each do |to_remove|
-    Sinatra::Application.settings.history.delete to_remove[:id]
-  end
-end
-
 def send_job_list(name, list)
   overal_state = 'success'
   overal_state = 'failed' if list.any? { |j| j['state'] != 'success' }
@@ -40,14 +29,6 @@ def fetch_jenkins_jobs
   url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
   response = http.request(Net::HTTP::Get.new(url))
   JSON.parse(response.body)['jobs']
-end
-
-def relay_event(name, data)
-  return unless ENVied.RELAY_EVENTS
-  HTTParty.post(
-    "#{ENVied.RELAY_EVENTS}widgets/#{name}",
-    body:  data.merge(auth_token: ENVied.DASHING_AUTH_TOKEN).to_json
-  )
 end
 
 def fake_jenkins_jobs

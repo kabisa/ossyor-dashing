@@ -1,5 +1,6 @@
 require 'tracker_api'
 require 'envied'
+require_relative './job_helpers'
 ENVied.require
 
 client = TrackerApi::Client.new(token: ENVied.PIVOTAL_TRACKER_API_KEY)
@@ -57,25 +58,6 @@ end
 def send_if_changed(lists, entry, items)
   current_list = items.map { |s| s[:id] }
   send_if_changed_raw(lists, "pivotal_#{entry}", current_list, :stories)
-end
-
-def send_if_changed_raw(lists, entry, current_list, key)
-  previous_list = lists[entry] || []
-  return if current_list == previous_list
-  lists[entry] = current_list
-  send_event(entry, { key => current_list })
-end
-
-def clean_up_history(pattern, time = Time.now)
-  Sinatra::Application.settings.history.select do |entry, data|
-    entry.match pattern
-  end.map do |entry, data|
-    { id: entry, updated_at: Time.at(JSON.parse(data[/{.*}/])['updatedAt']) }
-  end.select do |data|
-    data[:updated_at] < time
-  end.each do |to_remove|
-    Sinatra::Application.settings.history.delete to_remove[:id]
-  end
 end
 
 STORY_FIELDS = 'project_id,name,description,story_type,owners,current_state,labels'
