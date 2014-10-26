@@ -1,0 +1,30 @@
+.widget-background-image {
+  background-color: #000;
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+
+  .image-foreground,
+  .image-background {
+    background-blend-mode: overlay;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    bottom: 0;
+    left: 0;
+    opacity: 1;
+    position: fixed;
+    position: fixed;
+    right: 0;
+    top: 0;
+    transition: opacity 6s;
+
+    &.hidden {
+      opacity: 0;
+    }
+  }
+
+
+}
