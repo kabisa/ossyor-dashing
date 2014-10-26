@@ -1,17 +1,18 @@
 <% content_for :title do %>OSS - YOR Dashboard<% end %>
+<div data-id="background" data-view="BackgroundImage"></div>
 <div class="gridster">
   <ul>
 
     <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
-    <div data-id="weather" data-view="Weather"></div>
+      <div data-id="weather" data-view="Weather"></div>
     </li>
 
-    <li data-row="2" data-col="2" data-sizex="1" data-sizey="1">
-      <div data-id="room_count" data-view="LuminaireCount" data-title="Room Count"></div>
+    <li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+      <div data-id="room_count" data-view="LuminaireCount" data-title="Room Count" data-icon="building"></div>
     </li>
 
-    <li data-row="2" data-col="3" data-sizex="1" data-sizey="1">
-      <div data-id="luminaire_count" data-view="LuminaireCount" data-title="Luminaire Count"></div>
+    <li data-row="1" data-col="5" data-sizex="1" data-sizey="1">
+      <div data-id="luminaire_count" data-view="LuminaireCount" data-title="Luminaire Count" data-icon="lightbulb"></div>
     </li>
 
     <li data-row="2" data-col="4" data-sizex="1" data-sizey="1">
@@ -21,7 +22,6 @@
     <li data-row="2" data-col="5" data-sizex="1" data-sizey="1">
       <div data-id="sold_count" data-view="Graph" data-title="Units Sold Today" style="background-color: green"></div>
     </li>
-
 
   </ul>
 </div>
