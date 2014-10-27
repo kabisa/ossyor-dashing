@@ -120,7 +120,8 @@ SCHEDULER.every '30s', first_in: 0 do |job|
   room_set = rooms.first
   picked_room = room_set.select { |r| r['type'] == room_type }.sample['id']
   room_id = ("0" + picked_room)[-2..-1]
-  zoom = ['04', '08'].sample
+  #zoom = ['04', '08'].sample
+  zoom = '08'
   day = ['0201', '0102'].sample
 
   send_event('background', {
