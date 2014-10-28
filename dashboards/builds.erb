@@ -1,0 +1,24 @@
+<script type='text/javascript'>
+$(function() {
+  Dashing.numColumns = 5;
+  Dashing.widget_margins = [5, 5]
+});
+
+</script>
+<% content_for :title do %>OSS - YOR Team board<% end %>
+<div class="gridster">
+  <ul>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_stable" data-view="JenkinsJobRuns" data-title="Stable Branches"></div>
+    </li>
+    <li data-row="1" data-col="2" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_jobs_feature" data-view="JenkinsJobRuns" data-title="Feature Branches"></div>
+    </li>
+    <li data-row="1" data-col="3" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_jobs_fix" data-view="JenkinsJobRuns" data-title="Fix Branches"></div>
+    </li>
+    <li data-row="1" data-col="4" data-sizex="1" data-sizey="1">
+      <div data-id="jenkins_jobs_experiment" data-view="JenkinsJobRuns" data-title="Experiments"></div>
+    </li>
+  </ul>
+</div>

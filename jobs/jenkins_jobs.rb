@@ -119,6 +119,16 @@ SCHEDULER.every '30s', :first_in => 0 do
     send_job_list('stable', jobs.select { |j| j['stable'] })
     send_job_list('unstable', jobs.reject { |j| j['stable'] })
     send_job_list('jobs', jobs)
+
+    job_lists = {}
+    jobs.each do |job|
+      key = job['name'].split('-')[0]
+      job_lists[key] ||= []
+      job_lists[key].push job
+    end
+    job_lists.each do |key, scoped_jobs|
+      send_job_list("jobs_#{key}", scoped_jobs)
+    end
   end
 end if jenkins_reachable || fake_jenkins
 
