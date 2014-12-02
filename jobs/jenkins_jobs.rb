@@ -1,4 +1,5 @@
 require 'net/http'
+require 'open-uri'
 require 'json'
 require 'envied'
 require 'httparty'
