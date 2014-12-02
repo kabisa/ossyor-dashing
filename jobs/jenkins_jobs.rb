@@ -6,7 +6,7 @@ require_relative './job_helpers'
 ENVied.require
 
 jenkins_reachable = false
-fake_jenkins = false
+fake_jenkins = true
 begin
   http = Net::HTTP.new(ENVied.JENKINS_HOST, ENVied.JENKINS_PORT)
   url  = format('/view/%s/api/json?tree=jobs[name,color]', ENVied.JENKINS_VIEW)
@@ -20,8 +20,8 @@ end
 def send_job_list(name, list)
   overal_state = 'success'
   overal_state = 'failed' if list.any? { |j| j['state'] != 'success' }
-  send_event("jenkins_#{name}", jobs: list.map { |j| j['name'] }, state: overal_state)
-  relay_event("jenkins_#{name}", jobs: list.map { |j| j['name'] }, state: overal_state)
+  send_event("jenkins_#{URI::encode(name)}", jobs: list.map { |j| j['name'] }, state: overal_state)
+  relay_event("jenkins_#{URI::encode(name)}", jobs: list.map { |j| j['name'] }, state: overal_state)
 end
 
 def fetch_jenkins_jobs
@@ -34,7 +34,7 @@ end
 def fake_jenkins_jobs
   [{
     'color' => 'blue_anime',
-    'name' => 'ossyor_develop'
+    'name' => 'ossyor_feature-see-context-menu'
   }, {
     'color' => 'red',
     'name' => 'ossyor_epic-hotspots'
@@ -111,8 +111,8 @@ SCHEDULER.every '30s', :first_in => 0 do
 
     # send all build stati as seperate events
     jobs.each do |job|
-      send_event("jenkins_job_#{job['name']}", job)
-      relay_event("jenkins_job_#{job['name']}", job)
+      send_event("jenkins_job_#{URI::encode(job['name'])}", job)
+      relay_event("jenkins_job_#{URI::encode(job['name'])}", job)
     end
 
     # send list of 'stable' branches
